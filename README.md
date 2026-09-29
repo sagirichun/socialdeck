@@ -137,11 +137,36 @@ If you swap SQLite for Postgres, `src/lib/db.ts` is the only file that changes: 
 
 ## Requirements
 
-- **Node.js 22 or newer** (`node:sqlite` is a built-in from 22.5; verified on 26.x)
+- **Node.js 22.13 or newer** — a hard floor, not a preference. `node:sqlite` is the persistence
+  layer and it only exists unflagged from 22.13. The install fails loudly below that (`.npmrc`
+  sets `engine-strict`, and every script entry point re-checks at runtime).
 - **ffmpeg and ffprobe on `PATH`** — required for the relay, media probing and aspect variants.
   Publishing text and images works without it.
 - **Redis 7+** — optional, only for the multi-process queue
 - A machine that can reach the platform APIs you intend to publish to
+
+### Checking your Node version
+
+```bash
+node -v     # must print v22.13.0 or higher
+```
+
+Distribution packages — and **Termux**, which is still on Node 20 — are usually too old.
+If `node -v` prints v20 or lower, upgrade first:
+
+```bash
+# any Linux, including a proot/chroot Debian
+curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && apt-get install -y nodejs
+
+# or without root
+curl -fsSL https://fnm.vercel.app/install | bash && fnm install 22 && fnm use 22
+
+# Termux (the host, not inside proot)
+pkg install nodejs-lts
+```
+
+Running under proot/chroot: install Node *inside* the guest, not on the Termux host — the
+guest cannot see the host's runtime.
 
 ---
 

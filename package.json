@@ -7,9 +7,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "worker": "tsx src/workers/index.ts",
-    "migrate": "tsx scripts/migrate.ts",
-    "seed": "tsx scripts/seed.ts",
+    "worker": "tsx scripts/preflight.ts && tsx src/workers/index.ts",
+    "migrate": "tsx scripts/preflight.ts && tsx scripts/migrate.ts",
+    "seed": "tsx scripts/preflight.ts && tsx scripts/seed.ts",
     "check": "tsx scripts/check.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
@@ -32,6 +32,9 @@
     "typescript": "^5.7.3"
   },
   "engines": {
-    "node": ">=22"
+    "node": ">=22.13.0"
+  },
+  "overrides": {
+    "postcss": "^8.5.28"
   }
 }

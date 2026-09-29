@@ -1,3 +1,4 @@
+import "./require-node";
 import { DatabaseSync } from "node:sqlite";
 import fs from "node:fs";
 import path from "node:path";
