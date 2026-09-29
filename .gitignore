@@ -1,0 +1,19 @@
+node_modules/
+.next/
+out/
+build/
+
+# Runtime state: database, uploads, stream artifacts, logs
+data/
+media/
+logs/
+*.log
+
+# Secrets. .env.example is the tracked template; every real .env variant is ignored.
+.env
+.env.*
+!.env.example
+
+.DS_Store
+next-env.d.ts
+*.tsbuildinfo
