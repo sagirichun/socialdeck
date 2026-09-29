@@ -152,21 +152,32 @@ node -v     # must print v22.13.0 or higher
 ```
 
 Distribution packages — and **Termux**, which is still on Node 20 — are usually too old.
-If `node -v` prints v20 or lower, upgrade first:
+If `node -v` prints v20 or lower, upgrade first. The tarball below is the most reliable route
+inside a proot/chroot, since it needs no root, no apt and no shell hook:
 
 ```bash
-# any Linux, including a proot/chroot Debian
+ARCH=$(uname -m); case "$ARCH" in aarch64|arm64) A=arm64;; armv7l|armv8l) A=armv7l;;
+  x86_64|amd64) A=x64;; *) echo "unsupported arch: $ARCH"; exit 1;; esac
+V=v22.23.3
+curl -fsSLO "https://nodejs.org/dist/$V/node-$V-linux-$A.tar.xz"
+curl -fsSL "https://nodejs.org/dist/$V/SHASUMS256.txt" | grep "linux-$A.tar.xz" | sha256sum -c -
+tar -xJf "node-$V-linux-$A.tar.xz" --strip-components=1 -C /usr/local
+node -v     # v22.23.3
+```
+
+Alternatives:
+
+```bash
+# NodeSource (needs root + apt)
 curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && apt-get install -y nodejs
 
-# or without root
+# no root at all
 curl -fsSL https://fnm.vercel.app/install | bash && fnm install 22 && fnm use 22
-
-# Termux (the host, not inside proot)
-pkg install nodejs-lts
 ```
 
 Running under proot/chroot: install Node *inside* the guest, not on the Termux host — the
-guest cannot see the host's runtime.
+guest cannot see the host's runtime. After swapping the runtime, delete the old modules:
+`rm -rf node_modules .next && npm install`.
 
 ---
 
