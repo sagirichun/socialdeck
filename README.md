@@ -148,7 +148,7 @@ If you swap SQLite for Postgres, `src/lib/db.ts` is the only file that changes: 
 ## Quick start
 
 ```bash
-git clone https://github.com/<your-username>/socialdeck.git
+git clone https://github.com/sagirichun/socialdeck.git
 cd socialdeck
 npm install
 
@@ -169,7 +169,7 @@ The seed prints the credentials it created. They are random per run unless you e
 ```
 seed complete
   admin login: admin@socialdeck.local / <generated-password>
-  accounts: 5, media: 4, comments: 10
+  accounts: 7, media: 4, comments: 8
 ```
 
 Store that password somewhere safe — it is printed once and only as a hash is kept.
